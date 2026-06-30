@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Dutch A2 — Reading Sprint</title>
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f7f6f3; --card:#ffffff; --ink:#1c1b19; --muted:#6b6b6b;
+  --line:#e6e4df; --brand:#c8102e; --brand2:#1d4e89; --ok:#1f8a4c;
+  --bad:#c0392b; --soft:#f0eee9; --accent:#ff7a59; --warn:#e6a23c;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);
+}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.5;-webkit-text-size-adjust:100%}
+.wrap{max-width:880px;margin:0 auto;padding:14px 14px 90px}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+h1{font-size:19px;margin:0;letter-spacing:-.2px}.sub{color:var(--muted);font-size:12px;margin-top:2px}
+.who{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:30px;padding:4px 6px 4px 12px;box-shadow:var(--shadow);cursor:pointer}
+.who .av{width:26px;height:26px;border-radius:50%;background:var(--brand2);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px}
+.who b{font-size:13px}.who .ch{color:var(--muted);font-size:11px}
+.countdown{background:var(--brand);color:#fff;border-radius:12px;padding:8px 13px;text-align:center;box-shadow:var(--shadow)}
+.countdown b{font-size:20px;display:block;line-height:1}.countdown span{font-size:10px;opacity:.9;text-transform:uppercase;letter-spacing:.5px}
+.tabs{display:flex;gap:5px;background:var(--soft);padding:5px;border-radius:12px;margin:6px 0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{border:0;background:transparent;color:var(--muted);font-weight:600;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;white-space:nowrap;flex:0 0 auto}
+.tab.active{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);margin-bottom:14px}
+.card h2{margin:0 0 4px;font-size:16px}.card h3{margin:14px 0 6px;font-size:14px;color:var(--brand2)}
+.muted{color:var(--muted)}.small{font-size:12px}.center{text-align:center}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button.btn{border:0;background:var(--brand2);color:#fff;border-radius:9px;padding:10px 14px;font-weight:600;cursor:pointer;font-size:14px}
+button.btn.ghost{background:var(--soft);color:var(--ink)}button.btn.ok{background:var(--ok)}button.btn.warn{background:var(--warn)}button.btn.red{background:var(--brand)}
+button.btn:disabled{opacity:.5;cursor:default}
+.pill{display:inline-block;background:var(--soft);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--muted);margin:2px 4px 2px 0}
+.pill.g{background:#e9f7ef;color:var(--ok)}.pill.r{background:#fdecea;color:var(--bad)}.pill.b{background:#eef3fb;color:var(--brand2)}
+.stat{display:flex;gap:12px;flex-wrap:wrap}.stat .box{flex:1;min-width:80px;background:var(--soft);border-radius:10px;padding:12px;text-align:center}
+.stat .box b{font-size:21px;display:block}.stat .box span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.speak{border:0;background:var(--soft);border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:15px;flex:0 0 auto}.speak:active{background:#e7e4dd}
+.vocab{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.vocab .nl{font-weight:600}.vocab .en{color:var(--muted);margin-left:auto;text-align:right}
+.flash{min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--soft);border-radius:14px;padding:22px;text-align:center;cursor:pointer;user-select:none}
+.flash .big{font-size:28px;font-weight:700;letter-spacing:-.3px}.flash .hint{color:var(--muted);font-size:12px;margin-top:10px}
+.flash .tag{font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.passage{background:var(--soft);border-radius:12px;padding:15px;white-space:pre-wrap;line-height:1.6;font-size:15px}.passage .ttl{font-weight:700;margin-bottom:6px}
+.q{margin:14px 0}.q .qt{font-weight:600;margin-bottom:6px}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:9px;padding:11px 12px;margin:6px 0;cursor:pointer;font-size:14px}
+.opt:active{border-color:var(--brand2)}.opt.right{border-color:var(--ok);background:#e9f7ef}.opt.wrong{border-color:var(--bad);background:#fdecea}
+.explain{font-size:13px;color:#444;margin-top:6px;border-left:3px solid var(--line);padding:6px 10px;background:#fafafa;border-radius:0 6px 6px 0}
+.daygrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.daygrid .d{aspect-ratio:1;border-radius:8px;background:var(--soft);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:var(--muted);cursor:pointer}
+.daygrid .d.done{background:#e9f7ef;color:var(--ok);font-weight:700}.daygrid .d.today{outline:2px solid var(--brand)}.daygrid .d b{font-size:14px;color:var(--ink)}
+.notice{background:#fff8e6;border:1px solid #f0e2b8;border-radius:10px;padding:10px 12px;font-size:13px;margin:10px 0}
+.tip{background:#eef3fb;border:1px solid #d6e3f4;border-radius:10px;padding:12px;margin:10px 0}.tip b{color:var(--brand2)}
+.tip .n{display:inline-block;width:22px;height:22px;border-radius:50%;background:var(--brand2);color:#fff;text-align:center;line-height:22px;font-size:12px;margin-right:6px}
+textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;resize:vertical;min-height:64px}
+select,input[type=text],input[type=password]{border:1px solid var(--line);border-radius:8px;padding:9px 10px;font:inherit;background:#fff;width:auto}
+.score{font-weight:700;font-size:16px}
+.loading{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--brand2);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+.bar{background:var(--soft);border-radius:8px;height:14px;overflow:hidden}.bar>div{height:100%;background:var(--ok)}
+.chat{display:flex;flex-direction:column;gap:8px;margin:10px 0;max-height:340px;overflow-y:auto}
+.msg{padding:9px 12px;border-radius:12px;max-width:85%;white-space:pre-wrap;font-size:14px}
+.msg.u{background:var(--brand2);color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
+.msg.a{background:var(--soft);align-self:flex-start;border-bottom-left-radius:3px}
+.overlay{position:fixed;inset:0;background:rgba(28,27,25,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal{background:#fff;border-radius:16px;padding:22px;max-width:420px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.25)}.modal h2{margin:0 0 4px}
+.plist{display:flex;flex-direction:column;gap:8px;margin:14px 0}
+.prow{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer}.prow:hover{border-color:var(--brand2);background:#f7faff}
+.prow .av{width:34px;height:34px;border-radius:50%;background:var(--brand2);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.prow .del{margin-left:auto;background:transparent;border:0;color:var(--muted);cursor:pointer;font-size:16px}
+.addrow{display:flex;gap:8px;margin-top:6px}.addrow input{flex:1}
+</style>
+</head>
+<body>
+<div class="wrap" id="app" style="display:none">
+  <header>
+    <div><h1>🇳🇱 Dutch A2 — Reading Sprint</h1><div class="sub">Target: <b>Lezen</b> exam · 29 July 2026</div></div>
+    <div class="row" style="gap:8px">
+      <div class="who" id="whoBtn"><div class="av" id="whoAv">?</div><div><b id="whoName">—</b><div class="ch">switch ▾</div></div></div>
+      <div class="countdown"><b id="cdDays">–</b><span>days left</span></div>
+    </div>
+  </header>
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-t="today">Today</button>
+    <button class="tab" data-t="vocab">Vocab</button>
+    <button class="tab" data-t="reading">Reading</button>
+    <button class="tab" data-t="tutor">AI Tutor</button>
+    <button class="tab" data-t="strategy">Strategy</button>
+    <button class="tab" data-t="plan">Plan</button>
+    <button class="tab" data-t="progress">Progress</button>
+  </div>
+
+  <section id="view-today">
+    <div class="card">
+      <h2 id="todayTheme">Today's focus</h2>
+      <div class="muted small" id="todaySub"></div>
+      <div class="row" id="todayCounts" style="margin:10px 0"></div>
+      <div class="row">
+        <button class="btn" onclick="go('vocab')">Study words →</button>
+        <button class="btn ghost" onclick="go('reading')">Reading practice</button>
+        <button class="btn ghost" id="todayAIbtn" onclick="go('tutor')">✨ AI tutor</button>
+      </div>
+      <h3>Preview — today's theme words</h3>
+      <div id="todayVocab"></div>
+      <h3>One useful phrase</h3>
+      <div id="todayPhrase" class="row" style="align-items:flex-start"></div>
+      <h3>Grammar tip</h3>
+      <div id="todayTip" class="small"></div>
+    </div>
+    <div class="card">
+      <h2>The Lezen exam in one minute</h2>
+      <p class="small">65 minutes · 10 short texts · 25 multiple-choice questions · about <b>18 of 25</b> right to pass. No speaking or writing. Texts are everyday Dutch: gemeente letters, notices, ads, schedules, short articles. The skill: know common words, and find what each question is actually asking. <span class="muted">(See Strategy.)</span></p>
+    </div>
+  </section>
+
+  <section id="view-vocab" style="display:none">
+    <div class="card">
+      <h2>Flashcards</h2>
+      <div class="muted small" id="vcStatus"></div>
+      <div class="flash" id="flash" style="margin:14px 0">
+        <div class="tag muted" id="flashTag"></div>
+        <div class="big" id="flashFront">Ready?</div>
+        <div class="big" id="flashBack" style="display:none;color:var(--brand2)"></div>
+        <div class="hint" id="flashHint">Tap “Start session”. New words are introduced gradually; words you know are spaced out and won't keep repeating.</div>
+      </div>
+      <div class="row center" id="flashControls" style="justify-content:center"><button class="btn" id="vcStart">Start session</button></div>
+      <div class="row center" id="flashGrade" style="display:none;justify-content:center">
+        <button class="btn red" id="gAgain" title="Didn't know it — show again soon">Again</button>
+        <button class="btn ok" id="gGood" title="Knew it — space it out">Good</button>
+        <button class="btn ghost" id="gEasy" title="Too easy — bury it for a long time">Easy ✓</button>
+      </div>
+    </div>
+    <div class="card" id="trickyCard" style="display:none">
+      <h3 style="margin-top:0">⚡ Words you keep forgetting</h3>
+      <div class="muted small">These tripped you up most — the app shows them more often.</div>
+      <div id="trickyList"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">All words by theme</h3>
+      <select id="vcTheme" style="margin-bottom:10px"></select>
+      <div id="vcList"></div>
+    </div>
+  </section>
+
+  <section id="view-reading" style="display:none">
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <h2 style="margin:0">Reading practice</h2>
+        <div class="row">
+          <select id="rdType"></select>
+          <button class="btn ghost" id="rdNew">New text</button>
+          <button class="btn" id="rdAI" title="AI text built from YOUR weak words">✨ AI</button>
+        </div>
+      </div>
+      <div class="muted small" id="rdMeta" style="margin:6px 0 12px"></div>
+      <div id="rdPassage"></div>
+      <div id="rdQuestions"></div>
+      <div id="rdResult" class="center" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+  <section id="view-tutor" style="display:none">
+    <div class="card" id="aiOff" style="display:none">
+      <h2>Turn on the AI tutor</h2>
+      <p class="small">The AI tutor writes practice from <b>your</b> weak words, quizzes you, and answers any Dutch question. It works automatically inside the Claude Cowork app. To use it on your phone or a hosted link, paste your own Anthropic API key (stored only on this device).</p>
+      <div class="row">
+        <input type="password" id="apiKey" placeholder="sk-ant-… (optional)" style="flex:1;min-width:200px">
+        <button class="btn" id="saveKey">Save key</button>
+      </div>
+      <div class="small muted" style="margin-top:8px">Get a key at <b>console.anthropic.com</b> → API Keys. Usage is a few cents. <a href="#" id="clearKey">Clear key</a></div>
+    </div>
+    <div id="aiOn" style="display:none">
+      <div class="card">
+        <h2>Your adaptive tutor 🤖</h2>
+        <div class="muted small" id="aiSource"></div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="aiReadWeak">📖 Reading from my weak words</button>
+          <button class="btn ghost" id="aiQuiz">📝 Quiz me on today's words</button>
+          <button class="btn ghost" id="aiExplainTip">💡 Explain today's grammar</button>
+        </div>
+        <div id="aiOut" class="small" style="margin-top:12px"></div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Ask the tutor anything</h3>
+        <div class="muted small">In English or Dutch — “what does <i>uiterlijk</i> mean?”, “explain de vs het”, “give me 5 doctor words”.</div>
+        <div class="chat" id="chat"></div>
+        <div class="row">
+          <textarea id="chatIn" placeholder="Type your question…" style="flex:1"></textarea>
+          <button class="btn" id="chatSend">Send</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-strategy" style="display:none">
+    <div class="card"><h2>How to answer the reading exam</h2><div class="muted small">The 8 habits that turn a guess into a sure answer.</div><div id="stratList"></div></div>
+    <div class="card"><h2>Signal words that decide the answer ⚠️</h2><div class="muted small">These little words flip the meaning. Tap 🔊 to hear each.</div><div id="signalList" style="margin-top:8px"></div></div>
+    <div class="card"><h2>Exam-day checklist</h2><div class="small" id="checklist"></div></div>
+  </section>
+
+  <section id="view-plan" style="display:none">
+    <div class="card">
+      <h2>4-week plan → 29 July</h2>
+      <div class="muted small">Tick a day when you finish its words + reading. Aim for 45–60 min/day.</div>
+      <div class="notice">Beginner + ~4 weeks: front-load the most common words (they cover most exam text), then shift to pure exam-format practice in week 4.</div>
+      <div class="daygrid" id="dayGrid" style="margin-top:10px"></div>
+    </div>
+    <div class="card" id="planDetail"></div>
+  </section>
+
+  <section id="view-progress" style="display:none">
+    <div class="card">
+      <h2>Progress — <span id="pgName"></span></h2>
+      <div class="stat">
+        <div class="box"><b id="pStreak">0</b><span>day streak</span></div>
+        <div class="box"><b id="pMaster">0</b><span>words mastered</span></div>
+        <div class="box"><b id="pLearn">0</b><span>learning</span></div>
+        <div class="box"><b id="pRead">0</b><span>texts done</span></div>
+        <div class="box"><b id="pAcc">–</b><span>reading acc.</span></div>
+      </div>
+      <hr><h3>Readiness for Lezen</h3><div id="readiness"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">AI key (for use outside the Cowork app)</h3>
+      <div class="small muted">Lets the AI tutor work on your phone / a hosted link. Stored only on this device. Not needed inside Cowork.</div>
+      <div class="row" style="margin-top:8px">
+        <input type="password" id="apiKey2" placeholder="sk-ant-…" style="flex:1;min-width:200px">
+        <button class="btn ghost" id="saveKey2">Save</button>
+        <button class="btn ghost" id="clearKey2">Clear</button>
+      </div>
+      <div class="small" id="keyStatus" style="margin-top:6px"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Backup & move to another device</h3>
+      <div class="small muted">Export saves this profile's progress. Import it on another device to continue.</div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" id="exportBtn">⬇ Export</button>
+        <button class="btn ghost" id="importBtn">⬆ Import</button>
+        <input type="file" id="importFile" accept="application/json" style="display:none">
+      </div>
+      <hr><button class="btn ghost small" id="resetBtn">Reset this profile's progress</button>
+    </div>
+  </section>
+</div>
+
+<div class="overlay" id="profileOverlay">
+  <div class="modal">
+    <h2>Who's studying?</h2>
+    <div class="muted small">Each person gets their own words, streak, and progress on this device.</div>
+    <div class="plist" id="plist"></div>
+    <div class="addrow"><input type="text" id="newName" placeholder="Add a name (e.g. your wife)" maxlength="18"><button class="btn" id="addProfile">Add</button></div>
+  </div>
+</div>
+
+<script>
+const EXAM=new Date('2026-07-29T09:00:00');
+const ROOT='nl_a2_root_v3';
+const KEYLS='nl_a2_apikey';
+const AI_MODEL='claude-haiku-4-5-20251001';
+
+/* ---------- CONTENT ---------- */
+const VOCAB={
+ "Everyday / basics":[["de week","week"],["de dag","day"],["het jaar","year"],["vandaag","today"],["morgen","tomorrow"],["gisteren","yesterday"],["nu","now"],["altijd","always"],["nooit","never"],["soms","sometimes"],["hier","here"],["daar","there"],["veel","much / many"],["weinig","few / little"],["groot","big"],["klein","small"],["nieuw","new"],["oud","old"],["goed","good"],["slecht","bad"],["open","open"],["dicht","closed"],["gratis","free (no cost)"],["samen","together"],["misschien","maybe"]],
+ "People / family":[["de man","man / husband"],["de vrouw","woman / wife"],["het kind","child"],["de kinderen","children"],["de ouders","parents"],["de vriend","friend (m)"],["de buurman","neighbour"],["de naam","name"],["geboren","born"],["getrouwd","married"],["jong","young"],["samenwonen","to live together"]],
+ "Work / appointments":[["het werk","work"],["de baan","job"],["de afspraak","appointment"],["de vergadering","meeting"],["beginnen","to begin"],["stoppen","to stop"],["betalen","to pay"],["de rekening","bill / account"],["het loon","wage"],["solliciteren","to apply (job)"],["de cv","CV"],["de chef","boss"],["het rooster","schedule / roster"],["op tijd","on time"],["te laat","too late / late"]],
+ "Health / doctor":[["de dokter","doctor"],["de huisarts","GP"],["het ziekenhuis","hospital"],["ziek","ill / sick"],["de pijn","pain"],["de medicijnen","medicine"],["de apotheek","pharmacy"],["een afspraak maken","make an appointment"],["beter","better"],["het lichaam","body"],["de koorts","fever"],["de tandarts","dentist"]],
+ "Housing":[["het huis","house"],["de woning","dwelling"],["huren","to rent"],["de huur","rent"],["de huurder","tenant"],["de verhuurder","landlord"],["de kamer","room"],["de keuken","kitchen"],["de badkamer","bathroom"],["verhuizen","to move house"],["het adres","address"],["de buurt","neighbourhood"]],
+ "Shopping / money":[["de winkel","shop"],["de supermarkt","supermarket"],["kopen","to buy"],["verkopen","to sell"],["het geld","money"],["de korting","discount"],["duur","expensive"],["goedkoop","cheap"],["de prijs","price"],["de aanbieding","special offer"],["pinnen","to pay by card"],["contant","cash"]],
+ "Transport / directions":[["de trein","train"],["de bus","bus"],["de fiets","bicycle"],["de auto","car"],["het station","station"],["de halte","stop"],["het kaartje","ticket"],["links","left"],["rechts","right"],["rechtdoor","straight ahead"],["dichtbij","nearby"],["ver","far"]],
+ "Government / KNM":[["de gemeente","municipality"],["het loket","counter / desk"],["het paspoort","passport"],["de identiteitskaart","ID card"],["de aanvraag","application / request"],["het formulier","form"],["invullen","to fill in"],["ondertekenen","to sign"],["de brief","letter"],["verplicht","mandatory"],["de regel","rule"],["de wet","law"],["de uitkering","benefit (welfare)"]],
+ "Time / numbers":[["de ochtend","morning"],["de middag","afternoon"],["de avond","evening"],["de nacht","night"],["vroeg","early"],["laat","late"],["het uur","hour"],["de minuut","minute"],["de maand","month"],["het weekend","weekend"],["de feestdag","public holiday"],["geopend","opened / open"]]
+};
+const PHRASES=[["Ik wil graag een afspraak maken.","I'd like to make an appointment."],["Hoeveel kost dat?","How much does that cost?"],["Waar is het station?","Where is the station?"],["Ik begrijp het niet.","I don't understand."],["Kunt u dat herhalen?","Can you repeat that?"],["Mag ik u iets vragen?","May I ask you something?"],["Ik ben op zoek naar werk.","I'm looking for work."],["Het formulier is niet volledig ingevuld.","The form is not completely filled in."],["De winkel is op zondag gesloten.","The shop is closed on Sundays."],["U moet zich aanmelden bij de gemeente.","You must register with the municipality."]];
+const TIPS=["<b>de/het</b>: every noun is a <i>de</i>- or <i>het</i>-word. Learn the article <i>with</i> the word. ~75% are <i>de</i>-words.","<b>Word order:</b> the verb is the 2nd idea. <i>Vandaag ga ik naar de dokter.</i>","<b>Plurals:</b> usually add <b>-en</b> (boek→boeken) or <b>-s</b> (tafel→tafels).","<b>Negation:</b> <i>niet</i> negates verbs/adjectives, <i>geen</i> negates nouns. <i>Ik heb geen tijd.</i>","<b>Questions:</b> verb first. <i>Heeft u een afspraak?</i>","<b>Modal verbs</b> (moeten, mogen, kunnen, willen) send the main verb to the END: <i>Ik wil het formulier invullen.</i>","<b>Reading:</b> find the question's keyword first, then locate it in the text.","<b>Past tense:</b> often <i>heeft/hebben + ge-…-t/d</i>: <i>Ik heb betaald.</i>","<b>Signs love:</b> <i>gesloten, geopend, verboden, let op</i>."];
+const STRATEGIES=[["Read the question first","Don't read the whole text slowly. Read the question, decide what you're looking for (a time? a name? a price?), then scan the text for exactly that."],["Identify the text type","The heading tells you a lot: a gemeente letter, a notice, an ad, a schedule, a rule? It tells you where the answer usually hides."],["Match the question word","<b>Wanneer?</b>→days/times. <b>Wie?</b>→names. <b>Hoeveel?</b>→prices/numbers. <b>Waarom?</b>→look for <i>omdat/want</i>."],["Watch the small signal words","<i>niet, geen, alleen, uiterlijk, vanaf, tot, behalve, maar, tenzij</i> — these tiny words decide the answer."],["Choose what the text SAYS","Never pick an answer just because it sounds logical in real life. Pick the one the text actually states."],["Find your proof sentence","For every answer, point to the exact sentence that proves it. No proof = probably wrong."],["Don't get stuck on one word","One unknown word won't sink you. Read the sentence before and after for context."],["Manage your 65 minutes","25 questions ≈ 2.5 min each. Finish a first pass in ~55 min, use the last 10 to recheck flagged answers."]];
+const SIGNALS=[["niet","not (negates verb/adjective)"],["geen","no / none (negates a noun)"],["alleen","only"],["uiterlijk","at the latest / by"],["vanaf","from (starting)"],["tot","until"],["voor","before / for"],["na","after"],["behalve","except"],["maar","but"],["omdat","because"],["want","because"],["daarom","therefore"],["tenzij","unless"],["altijd","always"],["nooit","never"],["minstens","at least"],["hoogstens","at most"],["verplicht","mandatory"],["gesloten","closed"],["geopend","open"]];
+const CHECKLIST=["Bring valid ID — you can't take the exam without it.","Arrive early; computer exams start on time.","Read every question before scanning the text.","Flag hard questions and move on — come back later.","Answer ALL 25, even guesses (no penalty for wrong).","Double-check niet/geen/alleen on each answer.","Leave 10 minutes to review flagged questions."];
+const READING=[
+ {type:"Announcement",ttl:"Mededeling – Bibliotheek",text:`Let op! De bibliotheek is van 13 tot en met 17 juli gesloten wegens onderhoud.
+Vanaf maandag 20 juli zijn wij weer geopend, van 10.00 tot 18.00 uur.
+Geleende boeken hoeft u niet eerder terug te brengen.`,q:[{q:"Waarom is de bibliotheek dicht?",o:["Wegens een feestdag","Wegens onderhoud","Wegens een verhuizing"],a:1,e:"“wegens onderhoud” = maintenance."},{q:"Wanneer is de bibliotheek weer open?",o:["13 juli","17 juli","20 juli"],a:2,e:"“Vanaf maandag 20 juli…”"},{q:"Moet u uw boeken eerder terugbrengen?",o:["Ja","Nee","Alleen op maandag"],a:1,e:"“hoeft u niet eerder terug te brengen.”"}]},
+ {type:"Letter",ttl:"Brief van de gemeente",text:`Geachte heer Yilmaz,
+U heeft een aanvraag gedaan voor een nieuw paspoort. Uw paspoort is klaar.
+U kunt het ophalen bij het loket Burgerzaken op werkdagen tussen 9.00 en 12.00 uur.
+Neem deze brief en uw oude paspoort mee.
+Met vriendelijke groet, Gemeente Utrecht`,q:[{q:"Wat moet meneer Yilmaz doen?",o:["Een paspoort aanvragen","Zijn paspoort ophalen","Betalen voor een paspoort"],a:1,e:"It's ready (“klaar”); collect it."},{q:"Wat moet hij meenemen?",o:["Alleen geld","Deze brief en zijn oude paspoort","Een pasfoto"],a:1,e:"“Neem deze brief en uw oude paspoort mee.”"},{q:"Wanneer kan hij het ophalen?",o:["In het weekend","'s Avonds","Op werkdagen, 9–12 uur"],a:2,e:"“op werkdagen tussen 9.00 en 12.00 uur.”"}]},
+ {type:"Sign",ttl:"Bordje bij de huisarts",text:`HUISARTSENPRAKTIJK DE LINDE
+Spreekuur alleen op afspraak.
+Bel 's ochtends tussen 8.00 en 10.00 uur.
+Bij spoed buiten openingstijden: bel de huisartsenpost, tel. 0900-1515.`,q:[{q:"Hoe krijgt u een afspraak?",o:["Gewoon langskomen","Bellen tussen 8 en 10 uur","Een e-mail sturen"],a:1,e:"“Bel 's ochtends tussen 8.00 en 10.00 uur.”"},{q:"Wat doet u bij spoed 's nachts?",o:["Wachten tot de ochtend","De huisartsenpost bellen","Naar de apotheek gaan"],a:1,e:"“…bel de huisartsenpost.”"}]},
+ {type:"Form",ttl:"Inschrijfformulier sportschool",text:`Vul uw gegevens in met BLOKLETTERS.
+Naam: ______   Geboortedatum: ______
+Het abonnement kost € 25 per maand. U betaalt automatisch via de bank.
+Opzeggen kan elke maand, schriftelijk.`,q:[{q:"Hoe moet u schrijven?",o:["In blokletters","Met potlood","In het Engels"],a:0,e:"“…met BLOKLETTERS.”"},{q:"Hoeveel kost het per maand?",o:["€ 15","€ 25","€ 50"],a:1,e:"“€ 25 per maand.”"},{q:"Hoe kunt u opzeggen?",o:["Telefonisch","Schriftelijk","Niet"],a:1,e:"“…schriftelijk.”"}]},
+ {type:"Short article",ttl:"Nieuwe fietsenstalling",text:`In het centrum is een nieuwe fietsenstalling geopend. De stalling is gratis en bewaakt.
+U kunt uw fiets er overdag veilig neerzetten. 's Nachts is de stalling gesloten.
+De gemeente hoopt zo dat er minder fietsen op straat staan.`,q:[{q:"Wat kost de fietsenstalling?",o:["Niets, het is gratis","€ 1 per dag","Dat staat er niet"],a:0,e:"“De stalling is gratis.”"},{q:"Wanneer is de stalling open?",o:["Alleen 's nachts","Overdag","Dag en nacht"],a:1,e:"“'s Nachts is de stalling gesloten.”"},{q:"Waarom wil de gemeente dit?",o:["Minder fietsen op straat","Meer auto's","Meer geld verdienen"],a:0,e:"“…minder fietsen op straat.”"}]},
+ {type:"Announcement",ttl:"Bericht supermarkt",text:`Aanbieding deze week: alle groenten 2 voor de prijs van 1.
+De aanbieding geldt van maandag tot en met zaterdag.
+Op zondag is de winkel gesloten.`,q:[{q:"Wat is de aanbieding?",o:["Gratis brood","Groenten 2 halen, 1 betalen","Korting op vlees"],a:1,e:"“2 voor de prijs van 1.”"},{q:"Wanneer is de winkel dicht?",o:["Op maandag","Op zaterdag","Op zondag"],a:2,e:"“Op zondag…gesloten.”"}]},
+ {type:"Letter",ttl:"Brief van de school",text:`Beste ouders,
+Op vrijdag 10 juli is er geen school. De leraren hebben dan een studiedag.
+De kinderen zijn die dag vrij. Maandag 13 juli begint de school weer gewoon.
+Wilt u die dag zelf opvang regelen?`,q:[{q:"Waarom is er op 10 juli geen school?",o:["Vakantie","Een studiedag voor leraren","Een feestdag"],a:1,e:"“…een studiedag.”"},{q:"Wat vraagt de school?",o:["Geld betalen","Zelf opvang regelen","Een formulier invullen"],a:1,e:"“…zelf opvang regelen?”"}]},
+ {type:"Sign",ttl:"Bordje in de trein",text:`Deze plaatsen zijn bestemd voor reizigers die slecht ter been zijn.
+Geef uw plaats af aan iemand die hem harder nodig heeft.
+Bedankt voor uw begrip.`,q:[{q:"Voor wie zijn deze plaatsen?",o:["Voor kinderen","Voor mensen die slecht kunnen lopen","Voor personeel"],a:1,e:"“…slecht ter been zijn.”"}]},
+ {type:"Letter",ttl:"E-mail van de verhuurder",text:`Beste mevrouw De Vries,
+Op woensdag 8 juli komt de loodgieter de kraan in de keuken repareren.
+Hij komt tussen 13.00 en 15.00 uur. Wilt u die middag thuis zijn?
+Als het niet uitkomt, bel dan uiterlijk maandag om een andere dag af te spreken.`,q:[{q:"Wat komt de loodgieter doen?",o:["De kraan repareren","De keuken schilderen","De huur ophalen"],a:0,e:"“…de kraan…repareren.”"},{q:"Wanneer komt hij?",o:["'s Ochtends","Tussen 13 en 15 uur","In de avond"],a:1,e:"“tussen 13.00 en 15.00 uur.”"},{q:"Wat doet u als het niet uitkomt?",o:["Niets","Uiterlijk maandag bellen","Een brief sturen"],a:1,e:"uiterlijk = at the latest."}]},
+ {type:"Announcement",ttl:"Mededeling sporthal",text:`Wegens een toernooi is de sporthal dit weekend alleen open voor leden.
+Niet-leden kunnen vanaf maandag weer terecht.
+De kantine blijft het hele weekend geopend.`,q:[{q:"Wie mag dit weekend in de sporthal?",o:["Iedereen","Alleen leden","Niemand"],a:1,e:"alleen = only."},{q:"Wanneer kunnen niet-leden komen?",o:["Dit weekend","Vanaf maandag","Nooit meer"],a:1,e:"“vanaf maandag.”"},{q:"Is de kantine open?",o:["Ja, het hele weekend","Nee","Alleen zondag"],a:0,e:"“…hele weekend geopend.”"}]},
+ {type:"Short article",ttl:"Gratis taalcursus",text:`De gemeente biedt vanaf september een gratis taalcursus aan voor nieuwe inwoners.
+De lessen zijn op dinsdag- en donderdagavond. Aanmelden kan tot 25 augustus via de website.
+Er is plaats voor maximaal 20 deelnemers.`,q:[{q:"Wat kost de cursus?",o:["€ 20","Niets","Dat staat er niet"],a:1,e:"“gratis taalcursus.”"},{q:"Wanneer zijn de lessen?",o:["Maandag en woensdag","Dinsdag- en donderdagavond","In het weekend"],a:1,e:"“dinsdag- en donderdagavond.”"},{q:"Tot wanneer aanmelden?",o:["Tot 25 augustus","Tot september","Tot 20 augustus"],a:0,e:"“tot 25 augustus.”"}]},
+ {type:"Form",ttl:"Afspraakbevestiging tandarts",text:`Uw afspraak: donderdag 16 juli om 9.30 uur.
+Kunt u niet komen? Bel dan minstens 24 uur van tevoren af, anders brengen wij kosten in rekening.
+Neem uw verzekeringspas mee.`,q:[{q:"Wanneer is de afspraak?",o:["16 juli, 9.30 uur","16 juni, 9.30 uur","17 juli, 9.30 uur"],a:0,e:"“donderdag 16 juli om 9.30 uur.”"},{q:"Wat gebeurt er als u te laat afzegt?",o:["Niets","U betaalt kosten","U krijgt een nieuwe afspraak"],a:1,e:"“…kosten in rekening.”"},{q:"Wat meenemen?",o:["Geld","Uw verzekeringspas","Een formulier"],a:1,e:"“…verzekeringspas mee.”"}]}
+];
+const PLAN=[["Week 1 · Foundation","Everyday + people/family words. 1 reading text/day. Read the Strategy tab fully once."],["Week 2 · Daily life","Work, health, housing, shopping vocab. 2 reading texts/day. Name the question word before scanning."],["Week 3 · Official Dutch","Gemeente/KNM words, transport, time. Drill letters & forms. 2–3 texts/day."],["Week 4 · Exam mode","Mostly practice: mixed types, review forgotten words daily, run the checklist. Simulate the test 3×."]];
+
+/* ---------- STATE ---------- */
+function loadRoot(){try{return JSON.parse(localStorage.getItem(ROOT))||null}catch(e){return null}}
+function saveRoot(){localStorage.setItem(ROOT,JSON.stringify(R))}
+let R=loadRoot();
+function blankData(){return{srs:{},days:{},read:{done:0,correct:0,total:0},streak:0,lastActive:null,start:new Date().toISOString().slice(0,10),lapses:{}}}
+if(!R){R={profiles:{},current:null}}
+let S=null;
+const ALLWORDS=[];Object.entries(VOCAB).forEach(([t,arr])=>arr.forEach(([nl,en])=>ALLWORDS.push({nl,en,theme:t})));
+const THEMES=Object.keys(VOCAB);
+function wordEn(nl){const w=ALLWORDS.find(x=>x.nl===nl);return w?w.en:''}
+function esc(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+const INT=[0,1,3,7,16,35,90]; // days per box (0..6)
+const MASTER_BOX=5;
+
+/* ---------- PROFILES ---------- */
+function uid(){return 'p'+Math.random().toString(36).slice(2,8)}
+function renderProfileList(){
+  const ids=Object.keys(R.profiles);
+  document.getElementById('plist').innerHTML=ids.length?ids.map(id=>{const p=R.profiles[id];return `<div class="prow" data-id="${id}"><div class="av">${p.name[0].toUpperCase()}</div><div><b>${p.name}</b><div class="small muted">streak ${p.data.streak||0} · ${Object.keys(p.data.srs).length} words seen</div></div><button class="del" data-del="${id}" title="Delete">🗑</button></div>`}).join(''):'<div class="muted small">No profiles yet — add one below.</div>';
+}
+document.getElementById('plist').addEventListener('click',e=>{
+  const del=e.target.closest('[data-del]');
+  if(del){e.stopPropagation();const id=del.dataset.del;if(confirm('Delete '+R.profiles[id].name+'?')){delete R.profiles[id];if(R.current===id)R.current=null;saveRoot();renderProfileList();}return;}
+  const row=e.target.closest('.prow');if(row)selectProfile(row.dataset.id);
+});
+document.getElementById('addProfile').onclick=addProfile;
+document.getElementById('newName').addEventListener('keydown',e=>{if(e.key==='Enter')addProfile()});
+function addProfile(){const inp=document.getElementById('newName');const name=inp.value.trim();if(!name)return;const id=uid();R.profiles[id]={name,data:blankData()};saveRoot();inp.value='';selectProfile(id);}
+function selectProfile(id){R.current=id;saveRoot();S=R.profiles[id].data;document.getElementById('profileOverlay').style.display='none';document.getElementById('app').style.display='';bootProfile();}
+document.getElementById('whoBtn').onclick=()=>{renderProfileList();document.getElementById('profileOverlay').style.display='flex'};
+
+/* ---------- TTS ---------- */
+let nlVoice=null;
+function pickVoice(){if(!('speechSynthesis'in window))return;const vs=speechSynthesis.getVoices();nlVoice=vs.find(v=>/nl[-_]?NL/i.test(v.lang))||vs.find(v=>/^nl/i.test(v.lang))||null;}
+pickVoice();if('speechSynthesis'in window)speechSynthesis.onvoiceschanged=pickVoice;
+function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='nl-NL';if(nlVoice)u.voice=nlVoice;u.rate=.9;speechSynthesis.speak(u);}catch(e){}}
+window.speak=speak;
+
+/* ---------- AI ---------- */
+function getKey(){return localStorage.getItem(KEYLS)||''}
+function setKey(k){if(k)localStorage.setItem(KEYLS,k);else localStorage.removeItem(KEYLS);}
+function inCowork(){return !!(window.cowork&&window.cowork.askClaude)}
+function aiReady(){return inCowork()||!!getKey()}
+async function aiAsk(prompt){
+  if(inCowork()){const r=await window.cowork.askClaude(prompt,[]);return typeof r==='string'?r:(r&&(r.text||r.content))||JSON.stringify(r);}
+  const key=getKey();if(!key)throw new Error('no-ai');
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:AI_MODEL,max_tokens:1200,messages:[{role:'user',content:prompt}]})});
+  if(!res.ok){const t=await res.text();throw new Error('API '+res.status+': '+t.slice(0,120));}
+  const j=await res.json();return (j.content||[]).map(c=>c.text).join('');
+}
+
+/* ---------- NAV ---------- */
+function go(t){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.t===t));
+  ['today','vocab','reading','tutor','strategy','plan','progress'].forEach(v=>document.getElementById('view-'+v).style.display=(v===t?'':'none'));
+  if(t==='vocab')renderVocabList();
+  if(t==='plan')renderPlan();
+  if(t==='progress')renderProgress();
+  if(t==='strategy')renderStrategy();
+  if(t==='tutor')renderTutor();
+  window.scrollTo(0,0);
+}
+window.go=go;
+document.getElementById('tabs').addEventListener('click',e=>{if(e.target.dataset.t)go(e.target.dataset.t)});
+
+/* ---------- HELPERS ---------- */
+function todayIndex(){const d0=new Date(S.start),dn=new Date(new Date().toISOString().slice(0,10));return Math.max(0,Math.round((dn-d0)/864e5));}
+function markActiveToday(){const t=new Date().toISOString().slice(0,10);if(S.lastActive!==t){const y=new Date(Date.now()-864e5).toISOString().slice(0,10);S.streak=(S.lastActive===y)?(S.streak+1):1;S.lastActive=t;saveRoot();}}
+function refreshCountdown(){document.getElementById('cdDays').textContent=Math.max(0,Math.ceil((EXAM-new Date())/864e5));}
+function counts(){
+  const t=todayIndex();let due=0,mastered=0,learning=0;
+  Object.values(S.srs).forEach(e=>{if(e.box>=MASTER_BOX)mastered++;else learning++;if(e.due<=t)due++;});
+  const newLeft=ALLWORDS.filter(w=>!S.srs[w.nl]).length;
+  return{due,mastered,learning,newLeft,seen:Object.keys(S.srs).length};
+}
+function weakWords(n){
+  // learning words (box<MASTER) sorted by lapses desc then box asc
+  const arr=Object.keys(S.srs).filter(w=>S.srs[w].box<MASTER_BOX);
+  arr.sort((a,b)=>((S.lapses[b]||0)-(S.lapses[a]||0))||(S.srs[a].box-S.srs[b].box));
+  return arr.slice(0,n||10);
+}
+
+/* ---------- TODAY ---------- */
+function renderToday(){
+  const idx=todayIndex();const theme=THEMES[idx%THEMES.length];
+  document.getElementById('todayTheme').textContent='Today · '+theme;
+  document.getElementById('todaySub').textContent='Day '+(idx+1)+' of your sprint';
+  const c=counts();
+  document.getElementById('todayCounts').innerHTML=`<span class="pill r">${c.due} words due</span><span class="pill b">${c.newLeft} new available</span><span class="pill g">${c.mastered} mastered</span>`;
+  document.getElementById('todayVocab').innerHTML=VOCAB[theme].slice(0,8).map(([nl,en])=>`<div class="vocab"><button class="speak" onclick="speak('${esc(nl)}')">🔊</button><span class="nl">${nl}</span><span class="en">${en}</span></div>`).join('');
+  const ph=PHRASES[idx%PHRASES.length];
+  document.getElementById('todayPhrase').innerHTML=`<button class="speak" onclick="speak('${esc(ph[0])}')">🔊</button><div><b>${ph[0]}</b><br><span class="muted small">${ph[1]}</span></div>`;
+  document.getElementById('todayTip').innerHTML=TIPS[idx%TIPS.length];
+  document.getElementById('todayAIbtn').style.display=aiReady()?'':'none';
+}
+
+/* ---------- VOCAB / SRS (adaptive) ---------- */
+let session=[],sIdx=0,flipped=false;
+function buildSession(){
+  const t=todayIndex();
+  let due=Object.keys(S.srs).filter(w=>S.srs[w].due<=t);
+  due.sort((a,b)=>((S.lapses[b]||0)-(S.lapses[a]||0))||(S.srs[a].box-S.srs[b].box));
+  let sess=due.slice(0,20);
+  const room=Math.max(0,12-sess.length);
+  if(room>0){const fresh=ALLWORDS.map(w=>w.nl).filter(w=>!S.srs[w]).slice(0,Math.min(room,8));sess=sess.concat(fresh);}
+  return sess;
+}
+function startSession(){
+  session=buildSession();sIdx=0;
+  if(!session.length){
+    document.getElementById('flashTag').textContent='';
+    document.getElementById('flashFront').textContent='All caught up 🎉';document.getElementById('flashFront').style.display='';
+    document.getElementById('flashBack').style.display='none';
+    document.getElementById('flashHint').textContent='No words are due right now. Come back later, or do a reading text. Words you know are deliberately spaced out.';
+    document.getElementById('flashGrade').style.display='none';document.getElementById('flashControls').style.display='';
+    document.getElementById('vcStart').textContent='Check again';return;
+  }
+  document.getElementById('vcStart').style.display='none';document.getElementById('flashControls').style.display='none';showCard();
+}
+function showCard(){
+  if(sIdx>=session.length){
+    document.getElementById('flashTag').textContent='';
+    document.getElementById('flashFront').textContent='Done! 🎉';document.getElementById('flashFront').style.display='';
+    document.getElementById('flashBack').style.display='none';
+    const c=counts();document.getElementById('flashHint').textContent=session.length+' cards reviewed · '+c.due+' still due';
+    document.getElementById('flashGrade').style.display='none';document.getElementById('flashControls').style.display='';
+    document.getElementById('vcStart').style.display='';document.getElementById('vcStart').textContent='Next session';
+    markActiveToday();saveRoot();refreshVcStatus();renderTricky();return;
+  }
+  flipped=false;const nl=session[sIdx];const e=S.srs[nl];
+  document.getElementById('flashTag').textContent=!e?'NEW WORD':(e.box>=MASTER_BOX?'REVIEW':(S.lapses[nl]?'TRICKY':'LEARNING'));
+  document.getElementById('flashFront').textContent=nl;document.getElementById('flashFront').style.display='';
+  document.getElementById('flashBack').style.display='none';document.getElementById('flashBack').textContent=wordEn(nl);
+  document.getElementById('flashHint').textContent='Card '+(sIdx+1)+'/'+session.length+' · tap to flip';
+  document.getElementById('flashGrade').style.display='none';speak(nl);
+}
+document.getElementById('flash').onclick=()=>{
+  if(sIdx>=session.length)return;
+  flipped=!flipped;
+  document.getElementById('flashBack').style.display=flipped?'':'none';
+  document.getElementById('flashFront').style.display=flipped?'none':'';
+  document.getElementById('flashGrade').style.display=flipped?'':'none';
+};
+function grade(kind){
+  const nl=session[sIdx];const t=todayIndex();const e=S.srs[nl]||{box:0};
+  if(kind==='again'){e.box=1;S.lapses[nl]=(S.lapses[nl]||0)+1;}
+  else if(kind==='good'){e.box=Math.min(6,(e.box||0)+1);}
+  else{e.box=Math.min(6,(e.box||0)+2);} // easy
+  e.due=t+INT[Math.min(e.box,6)];S.srs[nl]=e;saveRoot();sIdx++;showCard();
+}
+document.getElementById('vcStart').onclick=startSession;
+document.getElementById('gAgain').onclick=()=>grade('again');
+document.getElementById('gGood').onclick=()=>grade('good');
+document.getElementById('gEasy').onclick=()=>grade('easy');
+function refreshVcStatus(){const c=counts();document.getElementById('vcStatus').innerHTML=`<span class="pill r">${c.due} due</span><span class="pill">learning ${c.learning}</span><span class="pill g">mastered ${c.mastered}</span><span class="pill b">${c.newLeft} new left</span>`;}
+function renderTricky(){
+  const tr=Object.entries(S.lapses||{}).filter(([w,n])=>n>=2&&S.srs[w]&&S.srs[w].box<MASTER_BOX).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  const card=document.getElementById('trickyCard');
+  if(!tr.length){card.style.display='none';return;}
+  card.style.display='';
+  document.getElementById('trickyList').innerHTML=tr.map(([nl,n])=>`<div class="vocab"><button class="speak" onclick="speak('${esc(nl)}')">🔊</button><span class="nl">${nl}</span><span class="en">${wordEn(nl)} <span class="pill r">missed ${n}×</span></span></div>`).join('');
+}
+function renderVocabList(){
+  refreshVcStatus();renderTricky();
+  const sel=document.getElementById('vcTheme');
+  if(!sel.dataset.init){sel.innerHTML=THEMES.map(t=>`<option>${t}</option>`).join('');sel.dataset.init=1;sel.onchange=renderVocabList;}
+  const t=sel.value||THEMES[0];
+  document.getElementById('vcList').innerHTML=VOCAB[t].map(([nl,en])=>{const e=S.srs[nl];const tag=e?(e.box>=MASTER_BOX?'<span class="pill g">mastered</span>':'<span class="pill">learning</span>'):'';return `<div class="vocab"><button class="speak" onclick="speak('${esc(nl)}')">🔊</button><span class="nl">${nl}</span><span class="en">${en} ${tag}</span></div>`}).join('');
+}
+
+/* ---------- READING ---------- */
+let rdCurrent=null,rdAnswered=false;
+function fillTypeSelect(){const types=['All',...new Set(READING.map(r=>r.type))];document.getElementById('rdType').innerHTML=types.map(t=>`<option>${t}</option>`).join('');}
+function pickReading(){const f=document.getElementById('rdType').value;const pool=READING.filter(r=>f==='All'||r.type===f);return pool[Math.floor(Math.random()*pool.length)];}
+function renderReading(item){
+  rdCurrent=item;rdAnswered=false;
+  document.getElementById('rdMeta').textContent=(item.type||'Text')+' · read the questions first, then scan.';
+  document.getElementById('rdPassage').innerHTML=`<div class="passage"><div class="ttl">${item.ttl} <button class="speak" id="rdSpeak">🔊</button></div>${item.text}</div>`;
+  document.getElementById('rdSpeak').onclick=()=>speak(item.text);
+  document.getElementById('rdQuestions').innerHTML=item.q.map((q,qi)=>`<div class="q" data-qi="${qi}"><div class="qt">${qi+1}. ${q.q}</div>`+q.o.map((o,oi)=>`<button class="opt" data-qi="${qi}" data-oi="${oi}">${o}</button>`).join('')+`<div class="explain" style="display:none" id="exp-${qi}"></div></div>`).join('');
+  document.getElementById('rdResult').innerHTML='';
+}
+document.getElementById('rdQuestions').addEventListener('click',e=>{
+  const b=e.target.closest('.opt');if(!b)return;
+  const qi=+b.dataset.qi;const block=document.querySelector('.q[data-qi="'+qi+'"]');if(block.dataset.done)return;
+  block.dataset.done=1;const correct=rdCurrent.q[qi].a,chosen=+b.dataset.oi;
+  block.querySelectorAll('.opt').forEach(o=>{const oi=+o.dataset.oi;if(oi===correct)o.classList.add('right');if(oi===chosen&&chosen!==correct)o.classList.add('wrong');o.disabled=true;});
+  const exp=document.getElementById('exp-'+qi);exp.style.display='';exp.textContent=(chosen===correct?'✓ ':'✗ ')+(rdCurrent.q[qi].e||'');
+  maybeFinishReading();
+});
+function maybeFinishReading(){
+  const blocks=[...document.querySelectorAll('#rdQuestions .q')];
+  if(blocks.every(b=>b.dataset.done)&&!rdAnswered){
+    rdAnswered=true;let right=0;rdCurrent.q.forEach((q,qi)=>{if(!document.querySelector('.q[data-qi="'+qi+'"] .opt.wrong'))right++;});
+    const tot=rdCurrent.q.length;S.read.done++;S.read.total+=tot;S.read.correct+=right;markActiveToday();saveRoot();
+    document.getElementById('rdResult').innerHTML='<div class="score">Score: '+right+'/'+tot+'</div><button class="btn" id="rdNext" style="margin-top:8px">Next text →</button>';
+    document.getElementById('rdNext').onclick=()=>renderReading(pickReading());
+  }
+}
+document.getElementById('rdNew').onclick=()=>renderReading(pickReading());
+document.getElementById('rdType').onchange=()=>renderReading(pickReading());
+async function aiReading(){
+  const btn=document.getElementById('rdAI');
+  if(!aiReady()){document.getElementById('rdMeta').innerHTML='AI is off. Open the <b>AI Tutor</b> tab to enable it (free in the Cowork app, or add an API key for phone use). Showing a saved text.';renderReading(pickReading());return;}
+  btn.disabled=true;document.getElementById('rdMeta').innerHTML='<span class="loading"></span> writing a text using your weak words…';
+  const weak=weakWords(8);const wl=weak.length?weak.join(', '):'common A2 words';
+  const prompt=`You are a Dutch NT2 teacher. Write ONE short Dutch reading text at CEFR A2 level for an inburgering Lezen exam (an everyday announcement, letter, sign, or short article, 45-70 words). Naturally include several of these words the learner is struggling with: ${wl}. Then write 3 multiple-choice comprehension questions in Dutch, each 3 options, one correct, plus a one-line English explanation. Respond ONLY as compact JSON: {"type":"Letter","ttl":"...","text":"...","q":[{"q":"...","o":["..","..",".."],"a":0,"e":"..."}]}`;
+  try{const r=await aiAsk(prompt);const j=JSON.parse(r.slice(r.indexOf('{'),r.lastIndexOf('}')+1));if(j&&j.q&&j.q.length){renderReading(j);document.getElementById('rdMeta').textContent='AI text · built from your weak words: '+wl;}else throw 0;}
+  catch(e){document.getElementById('rdMeta').textContent='Could not generate ('+(e.message||e)+'). Showing a saved text.';renderReading(pickReading());}
+  finally{btn.disabled=false;}
+}
+document.getElementById('rdAI').onclick=aiReading;
+
+/* ---------- TUTOR ---------- */
+let chatHist=[];
+function renderTutor(){
+  const on=aiReady();
+  document.getElementById('aiOn').style.display=on?'':'none';
+  document.getElementById('aiOff').style.display=on?'none':'';
+  if(on)document.getElementById('aiSource').textContent=inCowork()?'AI: running inside the Cowork app (free).':'AI: using your saved API key.';
+}
+document.getElementById('saveKey').onclick=()=>{const k=document.getElementById('apiKey').value.trim();setKey(k);renderTutor();renderToday();updateKeyStatus();};
+document.getElementById('clearKey').onclick=(e)=>{e.preventDefault();setKey('');document.getElementById('apiKey').value='';renderTutor();};
+async function aiPanel(prompt,intro){
+  const out=document.getElementById('aiOut');out.innerHTML='<span class="loading"></span> '+(intro||'thinking…');
+  try{const r=await aiAsk(prompt);out.innerHTML=mdLite(r);}catch(e){out.textContent='AI error: '+(e.message||e);}
+}
+function mdLite(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');}
+document.getElementById('aiReadWeak').onclick=()=>{go('reading');aiReading();};
+document.getElementById('aiQuiz').onclick=()=>{const idx=todayIndex();const theme=THEMES[idx%THEMES.length];const words=VOCAB[theme].slice(0,8).map(w=>w[0]+' ('+w[1]+')').join(', ');aiPanel(`You are a friendly Dutch tutor. Quiz the learner on these A2 words with 5 quick fill-in or translation questions (mix EN→NL and NL→EN), then give the answers at the end under "Answers:". Words: ${words}. Keep it short and encouraging.`,'making a quiz…');};
+document.getElementById('aiExplainTip').onclick=()=>{const idx=todayIndex();aiPanel(`Explain this Dutch A2 grammar point simply for a beginner, with 2 short Dutch example sentences and English translations. Point: ${TIPS[idx%TIPS.length].replace(/<[^>]+>/g,'')}`,'explaining…');};
+function pushMsg(role,text){chatHist.push({role,text});const c=document.getElementById('chat');c.innerHTML=chatHist.map(m=>`<div class="msg ${m.role==='user'?'u':'a'}">${mdLite(m.text)}</div>`).join('');c.scrollTop=c.scrollHeight;}
+async function sendChat(){
+  const inp=document.getElementById('chatIn');const q=inp.value.trim();if(!q)return;inp.value='';pushMsg('user',q);
+  pushMsg('assistant','…');
+  const sys='You are a warm, concise Dutch language tutor helping an adult beginner pass the inburgering A2 reading exam. Answer in simple English with Dutch examples where useful. Keep answers short.';
+  const convo=chatHist.filter(m=>m.text!=='…').map(m=>(m.role==='user'?'Learner: ':'Tutor: ')+m.text).join('\n');
+  try{const r=await aiAsk(sys+'\n\n'+convo+'\nTutor:');chatHist.pop();pushMsg('assistant',r);}catch(e){chatHist.pop();pushMsg('assistant','AI error: '+(e.message||e));}
+}
+document.getElementById('chatSend').onclick=sendChat;
+document.getElementById('chatIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}});
+
+/* ---------- STRATEGY ---------- */
+function renderStrategy(){
+  document.getElementById('stratList').innerHTML=STRATEGIES.map((s,i)=>`<div class="tip"><b><span class="n">${i+1}</span>${s[0]}</b><div class="small" style="margin-top:6px">${s[1]}</div></div>`).join('');
+  document.getElementById('signalList').innerHTML=SIGNALS.map(([nl,en])=>`<div class="vocab"><button class="speak" onclick="speak('${esc(nl)}')">🔊</button><span class="nl">${nl}</span><span class="en">${en}</span></div>`).join('');
+  document.getElementById('checklist').innerHTML='<ul style="margin:6px 0 0;padding-left:18px">'+CHECKLIST.map(c=>'<li style="margin:5px 0">'+c+'</li>').join('')+'</ul>';
+}
+
+/* ---------- PLAN ---------- */
+function renderPlan(){
+  const grid=document.getElementById('dayGrid');const idx=todayIndex();grid.innerHTML='';
+  for(let i=0;i<28;i++){const done=S.days[i];grid.insertAdjacentHTML('beforeend',`<div class="d${done?' done':''}${i===idx?' today':''}" data-day="${i}"><b>${i+1}</b>${done?'✓':''}</div>`);}
+  const wk=Math.min(3,Math.floor(idx/7));
+  document.getElementById('planDetail').innerHTML='<h2>'+PLAN[wk][0]+'</h2><p class="muted">'+PLAN[wk][1]+'</p><div class="small muted">Tap any day above to mark it done.</div>';
+}
+document.getElementById('dayGrid').addEventListener('click',e=>{const d=e.target.closest('[data-day]');if(!d)return;const i=+d.dataset.day;S.days[i]=!S.days[i];if(!S.days[i])delete S.days[i];saveRoot();renderPlan();});
+
+/* ---------- PROGRESS ---------- */
+function renderProgress(){
+  document.getElementById('pgName').textContent=R.profiles[R.current].name;
+  const c=counts();
+  document.getElementById('pStreak').textContent=S.streak||0;
+  document.getElementById('pMaster').textContent=c.mastered;
+  document.getElementById('pLearn').textContent=c.learning;
+  document.getElementById('pRead').textContent=S.read.done;
+  const acc=S.read.total?Math.round(100*S.read.correct/S.read.total):null;
+  document.getElementById('pAcc').textContent=acc==null?'–':acc+'%';
+  const vocabPct=Math.min(100,Math.round(100*c.mastered/120));const readPct=acc==null?0:acc;const overall=Math.round(.5*vocabPct+.5*readPct);
+  document.getElementById('readiness').innerHTML='<div class="small">Mastered words: <b>'+c.mastered+'/120 target</b> · Reading accuracy: <b>'+(acc==null?'–':acc+'%')+'</b></div><div class="bar" style="margin:8px 0"><div style="width:'+overall+'%;background:'+(overall>70?'var(--ok)':overall>40?'var(--warn)':'var(--brand)')+'"></div></div><div class="small muted">'+(overall>70?'On track — keep doing timed practice.':overall>40?'Getting there — push vocab + daily reading.':'Early days — study words daily and do one reading text every day.')+'</div>';
+  updateKeyStatus();
+}
+function updateKeyStatus(){const el=document.getElementById('keyStatus');if(!el)return;el.innerHTML=inCowork()?'✅ AI active via the Cowork app (no key needed here).':(getKey()?'✅ API key saved on this device.':'No key saved — AI works only inside the Cowork app until you add one.');}
+document.getElementById('saveKey2').onclick=()=>{setKey(document.getElementById('apiKey2').value.trim());updateKeyStatus();renderToday();};
+document.getElementById('clearKey2').onclick=()=>{setKey('');document.getElementById('apiKey2').value='';updateKeyStatus();renderToday();};
+document.getElementById('resetBtn').onclick=()=>{if(confirm('Reset this profile\'s progress?')){R.profiles[R.current].data=blankData();saveRoot();selectProfile(R.current);}};
+
+/* ---------- EXPORT / IMPORT ---------- */
+document.getElementById('exportBtn').onclick=()=>{const p=R.profiles[R.current];const blob=new Blob([JSON.stringify({name:p.name,data:p.data},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='dutch-progress-'+p.name.replace(/\s+/g,'_')+'.json';a.click();};
+document.getElementById('importBtn').onclick=()=>document.getElementById('importFile').click();
+document.getElementById('importFile').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const o=JSON.parse(rd.result);if(o&&o.data){R.profiles[R.current].data=Object.assign(blankData(),o.data);if(o.name)R.profiles[R.current].name=o.name;saveRoot();alert('Progress imported ✓');selectProfile(R.current);}else alert('That file is not a valid export.');}catch(e){alert('Could not read that file.');}};rd.readAsText(f);};
+
+/* ---------- BOOT ---------- */
+function bootProfile(){
+  const p=R.profiles[R.current];
+  document.getElementById('whoName').textContent=p.name;document.getElementById('whoAv').textContent=p.name[0].toUpperCase();
+  if(!S.start)S.start=new Date().toISOString().slice(0,10);if(!S.lapses)S.lapses={};
+  fillTypeSelect();renderToday();renderReading(pickReading());renderStrategy();go('today');saveRoot();
+}
+refreshCountdown();
+if(R.current&&R.profiles[R.current]){S=R.profiles[R.current].data;document.getElementById('profileOverlay').style.display='none';document.getElementById('app').style.display='';bootProfile();}
+else{renderProfileList();document.getElementById('profileOverlay').style.display='flex';}
+</script>
+</body>
+</html>
