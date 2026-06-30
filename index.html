@@ -129,7 +129,7 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
       <div class="row center" id="flashGrade" style="display:none;justify-content:center">
         <button class="btn red" id="gAgain" title="Didn't know it — show again soon">Again</button>
         <button class="btn ok" id="gGood" title="Knew it — space it out">Good</button>
-        <button class="btn ghost" id="gEasy" title="Too easy — bury it for a long time">Easy ✓</button>
+        <button class="btn ghost" id="gEasy" title="I already know this — remove it from rotation">I know this ✓</button>
       </div>
     </div>
     <div class="card" id="trickyCard" style="display:none">
@@ -151,7 +151,7 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
         <div class="row">
           <select id="rdType"></select>
           <button class="btn ghost" id="rdNew">New text</button>
-          <button class="btn" id="rdAI" title="AI text built from YOUR weak words">✨ AI</button>
+          <button class="btn" id="rdFocus" title="Pick a text loaded with the words you're weak on">🎯 Focus on my weak words</button>
         </div>
       </div>
       <div class="muted small" id="rdMeta" style="margin:6px 0 12px"></div>
@@ -409,8 +409,8 @@ function weakWords(n){
 function renderToday(){
   const idx=todayIndex();const theme=THEMES[idx%THEMES.length];
   document.getElementById('todayTheme').textContent='Today · '+theme;
-  document.getElementById('todaySub').textContent='Day '+(idx+1)+' of your sprint';
-  const c=counts();
+  const c=counts();const wk=weakWords(3);
+  document.getElementById('todaySub').innerHTML='Day '+(idx+1)+' · <b>your tailored plan:</b> review '+c.due+' due word'+(c.due===1?'':'s')+', learn 8 new ('+theme.split(' / ')[0].toLowerCase()+')'+(wk.length?(', then a reading focused on <i>'+wk.slice(0,3).join(', ')+'</i>'):'')+'.';
   document.getElementById('todayCounts').innerHTML=`<span class="pill r">${c.due} words due</span><span class="pill b">${c.newLeft} new available</span><span class="pill g">${c.mastered} mastered</span>`;
   document.getElementById('todayVocab').innerHTML=VOCAB[theme].slice(0,8).map(([nl,en])=>`<div class="vocab"><button class="speak" onclick="speak('${esc(nl)}')">🔊</button><span class="nl">${nl}</span><span class="en">${en}</span></div>`).join('');
   const ph=PHRASES[idx%PHRASES.length];
@@ -470,7 +470,7 @@ function grade(kind){
   const nl=session[sIdx];const t=todayIndex();const e=S.srs[nl]||{box:0};
   if(kind==='again'){e.box=1;S.lapses[nl]=(S.lapses[nl]||0)+1;}
   else if(kind==='good'){e.box=Math.min(6,(e.box||0)+1);}
-  else{e.box=Math.min(6,(e.box||0)+2);} // easy
+  else{e.box=6;} // "I know this" -> master it and bury for a long time
   e.due=t+INT[Math.min(e.box,6)];S.srs[nl]=e;saveRoot();sIdx++;showCard();
 }
 document.getElementById('vcStart').onclick=startSession;
@@ -524,9 +524,17 @@ function maybeFinishReading(){
 }
 document.getElementById('rdNew').onclick=()=>renderReading(pickReading());
 document.getElementById('rdType').onchange=()=>renderReading(pickReading());
+function focusReading(){
+  const weak=weakWords(20).map(w=>w.replace(/^(de |het |een )/,'').toLowerCase());
+  let best=null,bestScore=-1;
+  READING.forEach(it=>{const txt=(it.text+' '+it.q.map(q=>q.q+' '+q.o.join(' ')).join(' ')).toLowerCase();let s=0;weak.forEach(w=>{if(w&&txt.includes(w))s++;});if(s>bestScore){bestScore=s;best=it;}});
+  renderReading(best||pickReading());
+  document.getElementById('rdMeta').textContent=bestScore>0?('🎯 Focused on your weak words ('+bestScore+' match'+(bestScore>1?'es':'')+') — read the questions first, then scan.'):'Read the questions first, then scan. (Master a few words first to focus reading on them.)';
+}
+document.getElementById('rdFocus').onclick=focusReading;
 async function aiReading(){
-  const btn=document.getElementById('rdAI');
-  if(!aiReady()){document.getElementById('rdMeta').innerHTML='AI is off. Open the <b>AI Tutor</b> tab to enable it (free in the Cowork app, or add an API key for phone use). Showing a saved text.';renderReading(pickReading());return;}
+  const btn=document.getElementById('rdAI')||{};
+  if(!aiReady()){document.getElementById('rdMeta').innerHTML='Showing a focused text.';focusReading();return;}
   btn.disabled=true;document.getElementById('rdMeta').innerHTML='<span class="loading"></span> writing a text using your weak words…';
   const weak=weakWords(8);const wl=weak.length?weak.join(', '):'common A2 words';
   const prompt=`You are a Dutch NT2 teacher. Write ONE short Dutch reading text at CEFR A2 level for an inburgering Lezen exam (an everyday announcement, letter, sign, or short article, 45-70 words). Naturally include several of these words the learner is struggling with: ${wl}. Then write 3 multiple-choice comprehension questions in Dutch, each 3 options, one correct, plus a one-line English explanation. Respond ONLY as compact JSON: {"type":"Letter","ttl":"...","text":"...","q":[{"q":"...","o":["..","..",".."],"a":0,"e":"..."}]}`;
@@ -534,8 +542,6 @@ async function aiReading(){
   catch(e){document.getElementById('rdMeta').textContent='Could not generate ('+(e.message||e)+'). Showing a saved text.';renderReading(pickReading());}
   finally{btn.disabled=false;}
 }
-document.getElementById('rdAI').onclick=aiReading;
-
 /* ---------- TUTOR ---------- */
 let chatHist=[];
 function renderTutor(){
