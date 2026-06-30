@@ -1,0 +1,21 @@
+{
+  // Cloudflare Worker config for the Dutch A2 app with cross-device sync.
+  // Deploy with:  wrangler deploy
+  "name": "dutch-learning",
+  "main": "src/worker.js",
+  "compatibility_date": "2025-06-01",
+
+  // The app's index.html goes in ./public  (so it's served as the site).
+  "assets": { "directory": "./public", "binding": "ASSETS" },
+
+  // Cross-device storage. Create it once with:
+  //   wrangler kv namespace create DB
+  // then paste the printed id below.
+  "kv_namespaces": [
+    { "binding": "DB", "id": "PASTE_KV_NAMESPACE_ID_HERE" }
+  ]
+
+  // Login (Basic Auth) is set as secrets, NOT in this file:
+  //   wrangler secret put AUTH_USER
+  //   wrangler secret put AUTH_PASS
+}

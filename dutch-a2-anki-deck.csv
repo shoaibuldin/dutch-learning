@@ -1,0 +1,150 @@
+#separator:Comma
+#html:false
+#columns:Front,Back,Tags
+de week,week,everyday
+de dag,day,everyday
+het jaar,year,everyday
+vandaag,today,everyday
+morgen,tomorrow,everyday
+gisteren,yesterday,everyday
+nu,now,everyday
+altijd,always,everyday
+nooit,never,everyday
+soms,sometimes,everyday
+hier,here,everyday
+daar,there,everyday
+veel,much / many,everyday
+weinig,few / little,everyday
+groot,big,everyday
+klein,small,everyday
+nieuw,new,everyday
+oud,old,everyday
+goed,good,everyday
+slecht,bad,everyday
+open,open,everyday
+dicht,closed,everyday
+gratis,free (no cost),everyday
+samen,together,everyday
+misschien,maybe,everyday
+de man,man / husband,family
+de vrouw,woman / wife,family
+het kind,child,family
+de kinderen,children,family
+de ouders,parents,family
+de vriend,friend (m),family
+de buurman,neighbour,family
+de naam,name,family
+geboren,born,family
+getrouwd,married,family
+jong,young,family
+samenwonen,to live together,family
+het werk,work,work
+de baan,job,work
+de afspraak,appointment,work
+de vergadering,meeting,work
+beginnen,to begin,work
+stoppen,to stop,work
+betalen,to pay,work
+de rekening,bill / account,work
+het loon,wage,work
+solliciteren,to apply for a job,work
+de cv,CV / resume,work
+de chef,boss,work
+het rooster,schedule / roster,work
+op tijd,on time,work
+te laat,too late / late,work
+de dokter,doctor,health
+de huisarts,GP,health
+het ziekenhuis,hospital,health
+ziek,ill / sick,health
+de pijn,pain,health
+de medicijnen,medicine,health
+de apotheek,pharmacy,health
+een afspraak maken,to make an appointment,health
+beter,better,health
+het lichaam,body,health
+de koorts,fever,health
+de tandarts,dentist,health
+het huis,house,housing
+de woning,dwelling,housing
+huren,to rent,housing
+de huur,rent,housing
+de huurder,tenant,housing
+de verhuurder,landlord,housing
+de kamer,room,housing
+de keuken,kitchen,housing
+de badkamer,bathroom,housing
+verhuizen,to move house,housing
+het adres,address,housing
+de buurt,neighbourhood,housing
+de winkel,shop,shopping
+de supermarkt,supermarket,shopping
+kopen,to buy,shopping
+verkopen,to sell,shopping
+het geld,money,shopping
+de korting,discount,shopping
+duur,expensive,shopping
+goedkoop,cheap,shopping
+de prijs,price,shopping
+de aanbieding,special offer,shopping
+pinnen,to pay by card,shopping
+contant,cash,shopping
+de trein,train,transport
+de bus,bus,transport
+de fiets,bicycle,transport
+de auto,car,transport
+het station,station,transport
+de halte,stop,transport
+het kaartje,ticket,transport
+links,left,transport
+rechts,right,transport
+rechtdoor,straight ahead,transport
+dichtbij,nearby,transport
+ver,far,transport
+de gemeente,municipality,government
+het loket,counter / desk,government
+het paspoort,passport,government
+de identiteitskaart,ID card,government
+de aanvraag,application / request,government
+het formulier,form,government
+invullen,to fill in,government
+ondertekenen,to sign,government
+de brief,letter,government
+verplicht,mandatory,government
+de regel,rule,government
+de wet,law,government
+de uitkering,benefit (welfare),government
+de ochtend,morning,time
+de middag,afternoon,time
+de avond,evening,time
+de nacht,night,time
+vroeg,early,time
+laat,late,time
+het uur,hour,time
+de minuut,minute,time
+de maand,month,time
+het weekend,weekend,time
+de feestdag,public holiday,time
+geopend,opened / open,time
+niet,not,signalwords
+geen,no / none,signalwords
+alleen,only,signalwords
+uiterlijk,at the latest,signalwords
+vanaf,from (starting),signalwords
+tot,until,signalwords
+behalve,except,signalwords
+maar,but,signalwords
+omdat,because,signalwords
+tenzij,unless,signalwords
+minstens,at least,signalwords
+hoogstens,at most,signalwords
+Ik wil graag een afspraak maken.,I'd like to make an appointment.,phrase
+Hoeveel kost dat?,How much does that cost?,phrase
+Waar is het station?,Where is the station?,phrase
+Ik begrijp het niet.,I don't understand.,phrase
+Kunt u dat herhalen?,Can you repeat that?,phrase
+Mag ik u iets vragen?,May I ask you something?,phrase
+Ik ben op zoek naar werk.,I'm looking for work.,phrase
+Het formulier is niet volledig ingevuld.,The form is not completely filled in.,phrase
+De winkel is op zondag gesloten.,The shop is closed on Sundays.,phrase
+U moet zich aanmelden bij de gemeente.,You must register with the municipality.,phrase

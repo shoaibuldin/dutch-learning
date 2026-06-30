@@ -1,0 +1,21 @@
+{
+  // Cloudflare Worker config — Dutch A2 app with cross-device sync + private login.
+  // Deploy with the helper:  double-click deploy.bat   (or: node deploy.mjs)
+  "name": "dutch-learning",
+  "main": "src/worker.js",
+  "compatibility_date": "2025-06-01",
+
+  // The app (index.html) is copied into ./public at deploy time and served from there.
+  // run_worker_first: the Worker (Basic Auth gate) runs BEFORE any asset is served,
+  // otherwise static files would bypass the login.
+  "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": true },
+
+  // Cross-device storage. deploy.mjs creates this and fills in the id automatically.
+  "kv_namespaces": [
+    { "binding": "DB", "id": "6b6ca8ac65ee43e388901202456d87bb" }
+  ]
+
+  // Private login (Basic Auth) is stored as secrets, NOT in this file:
+  //   wrangler secret put AUTH_USER
+  //   wrangler secret put AUTH_PASS
+}

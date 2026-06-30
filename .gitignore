@@ -1,0 +1,9 @@
+# Build artifact (regenerated from index.html by deploy.bat / deploy.mjs)
+public/
+
+# Tooling
+node_modules/
+.wrangler/
+*.log
+.DS_Store
+Thumbs.db
